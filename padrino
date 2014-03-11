@@ -1,0 +1,34 @@
+FROM debian
+MAINTAINER Casper Thomsen, ct@clearhaus.com
+RUN apt-get update
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get upgrade --yes
+RUN apt-get install --yes curl git procps
+RUN curl -sSL https://get.rvm.io | bash -s stable
+RUN gpasswd -a root rvm
+ENV PATH /usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN /bin/bash -l -c "rvm requirements"
+RUN /bin/bash -l -c "rvm install 2.0.0-p353"
+RUN apt-get install --yes rubygems
+RUN /bin/bash -l -c "gem update --system && gem install bundler --no-ri --no-rdoc"
+
+ENV DEBIAN_FRONTEND dialog
+
+RUN /bin/bash -l -c "rvm use 2.0.0-p353 --default"
+
+# Cache gems.
+WORKDIR /tmp
+ADD ./Gemfile Gemfile
+ADD ./Gemfile.lock Gemfile.lock
+RUN /bin/bash -l -c "bundle install"
+
+#ADD . /opt/app
+
+WORKDIR /opt/app
+
+USER daemon
+CMD ["/bin/bash", "-l", "-c", "padrino start -h 0.0.0.0 -p 9292 -e development"]
+
+EXPOSE 9292
