@@ -1,9 +1,9 @@
 #!/bin/sh -e
 
-# LOCAL_PORT    (optional) Port that is listened to. Default: 80.
+# LISTEN_PORT   (optional) Port that is listened to. Default: 80.
 # REGISTRY_PORT (optional) Docker registry's port. Default: 5000.
 
-LOCAL_PORT=${LOCAL_PORT:-80}
+LISTEN_PORT=${LISTEN_PORT:-80}
 REGISTRY_PORT=${REGISTRY_PORT:-5000}
 
 # Find an unused port.
@@ -12,7 +12,7 @@ while true; do
     $(ncat -v localhost $INTERNAL_PORT 2>&1 | grep -q refused) && break
 done
 
-ncat -k -l -p "$LOCAL_PORT" -c "ncat localhost $INTERNAL_PORT" &
+ncat -k -l -p "$LISTEN_PORT" -c "ncat localhost $INTERNAL_PORT" &
 NCAT_PID=$!
 
 ssh -N -L "$INTERNAL_PORT":127.0.0.1:"$REGISTRY_PORT" docker-registry &

@@ -16,6 +16,19 @@ Then use it (see ``dockerhost.dock`` for how to build a ``dockerhost``:
         dockerhost
     root@container:/# docker pull <registry-hostname>/scratch
 
+You can make registry-forwarder listen on another port than port 80 by setting
+the ``LISTEN_PORT`` environment variable, and you can make registry-forwarder
+forward to another port than port 5000 by setting the ``REGISTRY_PORT``
+environment variable:
+
+.. code-block:: shell
+
+    docker run --rm -i -t --link fwdr:<registry-hostname> \
+        --env LISTEN_PORT=8080 --env REGISTRY_PORT=5555 \
+        --privileged -v /var/lib/docker \
+        dockerhost
+    root@container:/# docker pull <registry-hostname>/scratch
+
 
 Getting started
 ---------------
