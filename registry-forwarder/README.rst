@@ -21,6 +21,7 @@ Getting started
 ---------------
 
 Create a new "``~/.ssh``" directory that holds:
+
 * ``config`` where ``Host`` is ``docker-registry``
 * ``id_dsa``, ``id_ecdsa``, ``id_ed25519`` or ``id_rsa`` without a passphrase
 
@@ -34,13 +35,13 @@ Then make sure permissions are right:
     chmod go-rwx ~/.ssh/docker-registry/id_*
     sudo chown -R root:root ~/.ssh/docker-registry
 
-The start the container and make the first SSH connection to get the known hosts
-(or add ``known_hosts`` manually).
+Then start the container and make the first SSH connection to get the known
+hosts (or add ``known_hosts`` manually).
 
 .. code-block:: shell
 
     docker run --rm -i -t -v $HOME/.ssh/docker-registry:/root/.ssh registry-forwarder bash
-    root@5a9fcac54071:/# ssh docker-registry
+    root@container:/# ssh docker-registry
 
 
 Setting up passphrase-less secret key
