@@ -1,0 +1,10 @@
+FROM debian:wheezy
+MAINTAINER Casper Thomsen, ct@clearhaus.com
+
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && apt-get upgrade --yes
+RUN apt-get install --yes curl
+RUN curl -s https://get.docker.io/ubuntu/ | sh
+ENV DEBIAN_FRONTEND dialog
+
+CMD service docker start && bash
