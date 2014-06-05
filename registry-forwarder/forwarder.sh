@@ -6,7 +6,7 @@
 LOCAL_PORT=${LOCAL_PORT:-80}
 REGISTRY_PORT=${REGISTRY_PORT:-5000}
 
-# Find a unused port
+# Find an unused port.
 while true; do
     INTERNAL_PORT=$(shuf -i 2000-65000 -n 1)
     $(ncat -v localhost $INTERNAL_PORT 2>&1 | grep -q refused) && break
