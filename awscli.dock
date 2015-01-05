@@ -2,8 +2,8 @@ FROM debian:jessie
 MAINTAINER Casper Thomsen, ct@clearhaus.com
 
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install --no-install-recommends -y awscli
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get install --no-install-recommends -y awscli ruby
 ENV DEBIAN_FRONTEND dialog
 
 RUN echo "complete -C aws_completer aws" >> /etc/bash.bashrc
