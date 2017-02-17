@@ -3,7 +3,7 @@ MAINTAINER Casper Thomsen, ct@clearhaus.com
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get upgrade -y \
-    && apt-get install --no-install-recommends -y curl ca-certificates python \
+    && apt-get install --no-install-recommends -y curl ca-certificates python ruby \
     && curl -O https://bootstrap.pypa.io/get-pip.py \
     && python get-pip.py \
     && pip install awscli
