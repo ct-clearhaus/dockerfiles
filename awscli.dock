@@ -1,12 +1,5 @@
-FROM debian:jessie
-MAINTAINER Casper Thomsen, ct@clearhaus.com
+# Courtesy of https://github.com/aws/aws-cli/issues/5373#issuecomment-881897759
+FROM amazon/aws-cli
 
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get upgrade -y \
-    && apt-get install --no-install-recommends -y curl ca-certificates python ruby \
-    && curl -O https://bootstrap.pypa.io/get-pip.py \
-    && python get-pip.py \
-    && pip install awscli
-ENV DEBIAN_FRONTEND dialog
-
-RUN echo "complete -C aws_completer aws" >> /etc/bash.bashrc
+RUN curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_arm64/session-manager-plugin.rpm" -o "session-manager-plugin.rpm" && \
+    yum install -y ./session-manager-plugin.rpm
